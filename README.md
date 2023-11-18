@@ -5,7 +5,7 @@ A neural network evaluation application
 
 ## Installation
 
-[!NOTE]
+:information_source:
 These instructions assume that Git, Python 3.12.0, and Pip are already installed.
 
 ### Clone Repository
@@ -33,7 +33,7 @@ git clone https://github.com/nickywojcik/CMSC495TEAM5
    & python -m pip install -r requirements.txt
    ```
 
-[!Tip]
+:warning:
    If an error related to ".venv\Scripts\Activate.ps1 cannot be loaded because running scripts is disabled on this system." occurs, run the below command in an Administrator PowerShell Console.
    ```PowerShell
    Set-ExecutionPolicy Unrestricted -Force
