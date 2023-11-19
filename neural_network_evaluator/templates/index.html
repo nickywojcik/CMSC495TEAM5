@@ -10,17 +10,29 @@
 </style>
 
     <div id="image">
-        <img src="https://i.ibb.co/HVFS029/frankie.jpg" alt="frankie" border="0"></a>
+        <img src="{{image}}">
     </div>
     <div id="buttons">
-        <input type="file" id="button" name="myfile" text></input>
-        <button id="button">
-            View Results
-        </button>
-        <button id="button">
-            Clear Image
-        </button>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*"/>
+            <input type="submit" value="Upload" />
+            <input type="submit" id="process-button" value="Process" formaction="{{ url_for('models.flask_resnet_152_analysis') }}"/>
+            <input type="button" value="Clear Image" onclick=location.href="{{ url_for('clear_image') }}" />
+        </form>
     </div>
+    <script>
+        function stringToBool(str) {
+            return str.toLowerCase() === "true";
+        }
+
+        function validate_process_button() {
+            var processButton = document.getElementById("process-button");
+            var imageUploaded = stringToBool("{{ image_uploaded }}");
+            processButton.disabled = !imageUploaded;
+        }
+
+        validate_process_button();
+    </script>
 
 {% endblock %}
 

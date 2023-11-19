@@ -1,0 +1,22 @@
+<!--- Extends the base html file --->
+{% extends "base.html" %}
+
+<!--- Content --->
+{% block content %}
+<center>
+<table>
+    <tr>
+        <th>Category</th>
+        <th>Confidence</th>
+    </tr>
+    {%for result in results['results']%}
+    <tr>    
+        <td>{{ result[0] }}</td>
+        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
+    </tr>
+    {% endfor %}
+</table>
+<br /><br />
+<a href="{{ url_for('clear_image')}}">Home</a>
+</center>
+{% endblock %}
