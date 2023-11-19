@@ -11,7 +11,7 @@ from importlib.resources import files
 import torch
 from torchvision.models import resnet152, ResNet152_Weights
 
-from utils.web_image import WebImage
+from ..utils.web_image import WebImage
 
 def resnet_152_analysis(preprocessed_image: WebImage) -> dict:
     """Analyzes WebImage using ResNet-152
