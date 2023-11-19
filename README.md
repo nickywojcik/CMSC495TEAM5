@@ -72,7 +72,7 @@ flask --app neural_network_evaluator run
 #### Windows
 1. Navigate to application parent directory
    ```PowerShell
-   cd <ParentDirectory>/CMSC495Team5/neural_network_evaluator
+   cd <ParentDirectory>\CMSC495Team5\neural_network_evaluator
    ```
 2. Run test cases
    ```PowerShell
