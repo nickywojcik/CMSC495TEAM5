@@ -55,10 +55,10 @@ def create_app(test_config=None) -> Flask:
         else:
 
             # Display default image
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], "frankie.jpg")
+            filename = "frankie.jpg"
+            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
-            image.save(session["image_filepath"])
-            return render_template("index.html", image=filepath, image_uploaded="true")
+            return render_template("index.html", image_uploaded="true", image=url_for("static", filename="uploads/" + filename))
 
     @app.route('/clearImage', methods=('GET', 'POST'))
     def clear_image():
