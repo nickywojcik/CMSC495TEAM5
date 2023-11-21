@@ -1,6 +1,7 @@
 """  
 CMSC Team 5
 Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
+Written by Jack Boswell
 """
 
 class AnalysisResults:
