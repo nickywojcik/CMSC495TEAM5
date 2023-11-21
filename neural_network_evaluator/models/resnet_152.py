@@ -4,6 +4,7 @@ Analyzes WebImage using ResNet-152
 Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
 
 Code sourced from https://pytorch.org/vision/stable/models.html
+Written by Jack Boswell
 """
 
 from importlib import import_module

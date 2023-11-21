@@ -2,6 +2,7 @@
 CMSC Team 5
 A preliminary Browser-based GUI
 Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
+Written by Jack Boswell and Paul Wojcik
 """
 
 from datetime import datetime

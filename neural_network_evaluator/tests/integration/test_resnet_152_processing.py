@@ -2,6 +2,7 @@
 CMSC Team 5
 Perform testing of ResNet-152 processing
 Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
+Written by Jack Boswell
 """
 from importlib.resources import files
 import unittest
