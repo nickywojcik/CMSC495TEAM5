@@ -42,13 +42,16 @@ def create_app(test_config=None) -> Flask:
         """create index page"""
         if request.method == "POST":
 
-            # Save uploaded image
-            image = request.files["file"]
-            filename = secure_filename(image.filename)
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
-            image.save(session["image_filepath"])
-
+            # Get rid of existing image and Save uploaded image
+            clear_image()
+            try:
+                image = request.files["file"]
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+                session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
+                image.save(session["image_filepath"])
+            except FileNotFoundError:
+                return redirect(url_for('index'))
             # Display uploaded image
             return render_template("index.html", image_uploaded="true",
                                    image=url_for("static", filename="uploads/" + filename))
@@ -67,7 +70,7 @@ def create_app(test_config=None) -> Flask:
         try:
             os.remove(session["image_filepath"])
             session.pop('image_filepath')
-        except KeyError:
+        except (KeyError, FileNotFoundError) as e:
             pass
           
         return redirect(url_for('index'))
