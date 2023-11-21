@@ -6,7 +6,7 @@ A neural network evaluation application
 ## Installation
 
 :information_source:
-These instructions assume that Git, Python 3.12.0, and Pip are already installed.
+These instructions assume that Git, Python 3.11.0, and Pip are already installed.
 
 ### Clone Repository
 ```bash
