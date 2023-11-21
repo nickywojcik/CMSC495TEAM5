@@ -4,13 +4,14 @@
 <!--- Content --->
 {% block content %}
 <style>
-    #image {display: flex; justify-content: center; padding: 30px;}
+    #imagediv {display: flex; justify-content: center; padding: 30px;}
+    #image {max-height:500px; width:auto; }
     #buttons {display: flex; justify-content: center; padding-left: 20px;}
     #button {margin: 0 20px;}
 </style>
 
-    <div id="image">
-        <img src="{{image}}">
+    <div id="imagediv">
+        <img id = "image" src="{{image}}">
     </div>
     <div id="buttons">
         <form action="/" method="post" enctype="multipart/form-data">

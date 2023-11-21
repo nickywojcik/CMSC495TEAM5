@@ -15,7 +15,10 @@ driver_blueprint = Blueprint("models", __name__, url_prefix="/models")
 @driver_blueprint.route('/resnet152', methods=('GET', 'POST'))
 def flask_resnet_152_analysis():
     """Process image using ResNet-152"""
-    web_image = WebImage(session["image_filepath"])
+    try:
+        web_image = WebImage(session["image_filepath"])
+    except FileNotFoundError:
+            return redirect(url_for('index'))
     results = resnet_152_analysis(web_image)
 
     return render_template('results.html', results=results["ResNet-152"])
