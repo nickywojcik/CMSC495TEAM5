@@ -6,12 +6,16 @@ Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
 Code sourced from https://pytorch.org/vision/stable/models.html
 """
 
+from importlib import import_module
 from importlib.resources import files
 
 import torch
 from torchvision.models import resnet152, ResNet152_Weights
 
-from ..utils.web_image import WebImage
+try:
+  from ..utils.web_image import WebImage
+except ImportError:
+  from utils.web_image import WebImage
 
 def resnet_152_analysis(preprocessed_image: WebImage) -> dict:
     """Analyzes WebImage using ResNet-152
