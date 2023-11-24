@@ -67,15 +67,6 @@ See [Installation](#installation) for Instructions
 flask --app neural_network_evaluator run
 ```
 
-### Troubleshooting
-A known issue is that some libraries do not properly install through the requirements.txt command. These may need to be installed individually using pip.
-```bash
-   python -m pip install flask
-   python -m pip install pillow
-   python -m pip install torchvision
-   python -m pip install torch
-```
-
 ### Running Tests
 
 #### Windows
@@ -97,4 +88,3 @@ A known issue is that some libraries do not properly install through the require
    ```bash
    python3 -m unittest discover tests -v
    ```
-
