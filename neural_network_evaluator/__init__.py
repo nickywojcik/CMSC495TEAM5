@@ -16,8 +16,12 @@ from neural_network_evaluator.models import ModelFactory
 from neural_network_evaluator.utils import AnalysisResults, WebImage
 
 def get_project_root() -> Path:
-    "Get path of project root folder"
+    """Get path of project root folder"""
     return Path(__file__).parent
+
+def create_upload_dir() -> None:
+    """Create static/uploads if non-existent"""
+    Path("neural_network_evaluator/static/uploads").mkdir(parents=True, exist_ok=True)
 
 def create_app(test_config=None) -> Flask:
     """Create Flask App"""
@@ -51,6 +55,7 @@ def create_app(test_config=None) -> Flask:
                 filename = secure_filename(image.filename)
                 filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
                 session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
+                create_upload_dir()
                 image.save(session["image_filepath"])
             except FileNotFoundError:
                 return redirect(url_for('index'))
