@@ -81,20 +81,20 @@ A known issue is that some libraries do not properly install through the require
 #### Windows
 1. Navigate to application parent directory
    ```PowerShell
-   cd <ParentDirectory>\CMSC495Team5\neural_network_evaluator
+   cd <ParentDirectory>\CMSC495Team5
    ```
 2. Run test cases
    ```PowerShell
-   & python -m unittest discover tests -v
+   & python -m unittest discover neural_network_evaluator\tests -v
    ```
 
 #### Linux
 1. Navigate to application parent directory
    ```bash
-   cd <ParentDirectory>/CMSC495Team5/neural_network_evaluator
+   cd <ParentDirectory>/CMSC495Team5
    ```
 2. Run test cases
    ```bash
-   python3 -m unittest discover tests -v
+   python3 -m unittest discover neural_network_evaluator/tests -v
    ```
 
