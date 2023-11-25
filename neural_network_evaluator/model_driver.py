@@ -1,6 +1,6 @@
 """  
 CMSC Team 5
-Perform testing of ResNet-152 processing
+No longer is used or works!!!
 Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
 Written by Jack Boswell and Paul Wojcik
 """
