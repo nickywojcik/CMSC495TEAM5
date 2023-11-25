@@ -6,7 +6,7 @@ Written by Jack Boswell
 """
 import unittest
 
-from models.model_factory import ModelFactory, ResNet152Model, DenseNet201Model, VGG19Model
+from neural_network_evaluator.models.model_factory import ModelFactory, ResNet152Model, DenseNet201Model, VGG19Model
 
 class TestModelFactory(unittest.TestCase):
     """Unittest Testcase for PyTorch ModelFactory
@@ -39,7 +39,7 @@ class TestModelFactory(unittest.TestCase):
         """Test factory create model errors on unknown model"""
         with self.assertRaises(RuntimeError):
             self.factory.create_model("googlenet")
-        
+
     def test_resnet152_factory_creation(self) -> None:
         """Test ResNet-152 model creation from factory"""
         self.resnet152_model = self.factory.create_model("resnet152")
@@ -47,10 +47,24 @@ class TestModelFactory(unittest.TestCase):
 
     def test_densenet201_factory_creation(self) -> None:
         """Test DenseNet-201 model creation from factory"""
-        self.resnet152_model = self.factory.create_model("densenet201")
-        self.assertIsInstance(self.resnet152_model, DenseNet201Model)
+        self.densenet201_model = self.factory.create_model("densenet201")
+        self.assertIsInstance(self.densenet201_model, DenseNet201Model)
 
     def test_vgg19_factory_creation(self) -> None:
         """Test VGG19 model creation from factory"""
-        self.resnet152_model = self.factory.create_model("vgg19")
-        self.assertIsInstance(self.resnet152_model, VGG19Model)
+        self.vgg19_model = self.factory.create_model("vgg19")
+        self.assertIsInstance(self.vgg19_model, VGG19Model)
+
+    def test_model_error(self) -> None:
+        """Tests model runtime error when results are requested before analysis"""
+        with self.assertRaises(RuntimeError):
+            self.resnet152_model = self.factory.create_model("resnet152")
+            self.resnet152_model.get_top_results()
+
+        with self.assertRaises(RuntimeError):
+            self.densenet201_model = self.factory.create_model("densenet201")
+            self.densenet201_model.get_top_results()
+
+        with self.assertRaises(RuntimeError):
+            self.vgg19_model = self.factory.create_model("vgg19")
+            self.vgg19_model.get_top_results()
