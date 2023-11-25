@@ -1,4 +1,4 @@
-<!--- Written by Paul Wojcik --->
+<!--- Written by Paul Wojcik and Jack Boswell--->
 <!--- Extends the base html file --->
 {% extends "base.html" %}
 
@@ -17,7 +17,7 @@
     <div id="buttons">
         <form action="/" method="post" enctype="multipart/form-data">
             <input type="file" name="file" accept="image/*"/>
-            <input type="submit" value="Upload" />
+            <input type="submit" value="Upload" disabled />
             <input type="submit" id="process-button" value="Process" formaction="{{ url_for('return_results') }}"/>
             <input type="button" value="Clear Image" onclick=location.href="{{ url_for('clear_image') }}" />
         </form>
@@ -27,13 +27,22 @@
             return str.toLowerCase() === "true";
         }
 
-        function validate_process_button() {
+        function validateProcessButton() {
             var processButton = document.getElementById("process-button");
             var imageUploaded = stringToBool("{{ image_uploaded }}");
             processButton.disabled = !imageUploaded;
         }
 
-        validate_process_button();
+        function handleFileInputChange(event) {
+            const value = event.target.value;
+            const submitButton = document.querySelector("input[value=Upload]");
+            submitButton.disabled = !value;
+        }
+
+        const fileInput = document.querySelector("input[type=file]");
+        fileInput.addEventListener("change", handleFileInputChange)
+        
+        validateProcessButton();
     </script>
 
 {% endblock %}
