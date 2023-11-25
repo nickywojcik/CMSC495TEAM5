@@ -12,9 +12,8 @@ from pathlib import Path
 from flask import Flask, render_template, request, url_for, redirect, session
 from werkzeug.utils import secure_filename
 
-from .models.model_factory import ModelFactory
-from .utils.analysis_results import AnalysisResults
-from .utils.web_image import WebImage
+from neural_network_evaluator.models import ModelFactory
+from neural_network_evaluator.utils import AnalysisResults, WebImage
 
 def get_project_root() -> Path:
     "Get path of project root folder"
@@ -63,7 +62,7 @@ def create_app(test_config=None) -> Flask:
             # Display default image
             filename = "frankie.jpg"
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            return render_template("index.html", image_uploaded="true", image=url_for("static", filename="uploads/" + filename))
+            return render_template("index.html", image_uploaded="false", image=url_for("static", filename=filename))
 
     @app.route('/clearImage', methods=('GET', 'POST'))
     def clear_image():
@@ -109,6 +108,7 @@ def create_app(test_config=None) -> Flask:
 
         return render_template('results.html', resnet_results=results.get_results()["resnet152"], 
                                densenet_results=results.get_results()["densenet201"],
-                               vgg_results=results.get_results()["vgg19"])
+                               vgg_results=results.get_results()["vgg19"],
+                               highest_averaged_results=results.get_highest_averaged_result())
         
     return app

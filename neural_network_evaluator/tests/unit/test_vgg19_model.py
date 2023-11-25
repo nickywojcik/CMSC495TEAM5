@@ -7,8 +7,8 @@ Written by Jack Boswell
 from importlib.resources import files
 import unittest
 
-from models.model_factory import ModelFactory
-from utils.web_image import WebImage
+from neural_network_evaluator.models import ModelFactory
+from neural_network_evaluator.utils import AnalysisResults, WebImage
 
 class TestVGG19Model(unittest.TestCase):
     """Unittest Testcase for PyTorch VGG19 model
@@ -25,7 +25,7 @@ class TestVGG19Model(unittest.TestCase):
         # Already tested in test_model_factory
         self.factory = ModelFactory()
         self.vgg19_model = self.factory.create_model("vgg19")
-        self.test_image = files('tests.unit.data').joinpath('golden-retriever-dog-breed.jpeg')
+        self.test_image = files('neural_network_evaluator.tests.unit.data').joinpath('golden-retriever-dog-breed.jpeg')
 
     def get_web_image(self) -> WebImage:
         """Returns WebImage instance of test image
@@ -54,7 +54,7 @@ class TestVGG19Model(unittest.TestCase):
         self.assertIn("results", results["vgg19"])
 
         # Check number of results
-        self.assertEqual(len(results["vgg19"]["results"]), self.vgg19_model.top_results)
+        self.assertEqual(len(results["vgg19"]["results"]), self.vgg19_model.num_results)
 
         # Check elements within top_result and results
         self.assertTrue(all(isinstance(item, (str, float)) for item in results["vgg19"]["top_result"]))

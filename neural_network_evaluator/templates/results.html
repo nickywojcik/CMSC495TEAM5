@@ -8,9 +8,9 @@
 <table>
     <tr>
         <tr>
-            <th align="center" colspan="2">ResNet-152</th>
+            <th class="model_header" colspan="2">ResNet-152</th>
         </tr>
-        <th>Category</th>
+        <th class="category_header">Category</th>
         <th>Confidence</th>
     </tr>
     {%for result in resnet_results['results']%}
@@ -22,10 +22,10 @@
 </table>
 <table>
     <tr>
-        <th align="center" colspan="2">DenseNet-201</th>
+        <th class="model_header" colspan="2">DenseNet-201</th>
     </tr>
     <tr>
-        <th>Category</th>
+        <th class="category_header">Category</th>
         <th>Confidence</th>
     </tr>
     {%for result in densenet_results['results']%}
@@ -37,10 +37,10 @@
 </table>
 <table>
     <tr>
-        <th align="center" colspan="2">VGG19</th>
+        <th class="model_header" colspan="2">VGG19</th>
     </tr>
     <tr>
-        <th>Category</th>
+        <th class="category_header">Category</th>
         <th>Confidence</th>
     </tr>
     {%for result in vgg_results['results']%}
@@ -51,8 +51,16 @@
     {% endfor %}
 </table>
 </div>
-<br /><br />
 <center>
+<br /><br />
+Most Likely Category:
+<br />
+{{highest_averaged_results[0]}}
+<br /><br />
+Averaged Confidence From All Models: 
+<br />
+{{ "%.0f" % (highest_averaged_results[1] * 100) }}%
+<br /><br />
 <a href="{{ url_for('clear_image')}}">Home</a>
 </center>
 {% endblock %}

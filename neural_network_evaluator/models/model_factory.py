@@ -9,10 +9,7 @@ from typing import Callable
 
 import torch
 
-try:
-  from ..utils.web_image import WebImage
-except ImportError:
-  from utils.web_image import WebImage
+from neural_network_evaluator.utils import WebImage
 
 class Model:
     """Model parent class that eases CNN model instantiation
@@ -25,17 +22,19 @@ class Model:
         top_results: Integer that sets top k results
     """
 
-    def __init__(self, model: Callable, weights: enum, top_results: int = 5) -> None:
+    def __init__(self, model: Callable, weights: enum, num_results: int = 5) -> None:
         """Initializes Model class using a model, weights, and integer to control top k results
 
         Args:
           model: PyTorch function that allows for model creation
           weights: EnumType of weights necessary for model creation
           top_results: Integer that sets top k results (Default: 5)
+          _probabilities: Stores model probailities
         """
         self._model = model
         self._weights = weights
-        self.top_results = top_results
+        self.num_results = num_results
+        self._probabilities = None
 
         self._build_model()
 
@@ -61,8 +60,13 @@ class Model:
 
     def get_top_results(self) -> dict:
         """Return a dictionary of top k prediction results"""
+
+        # Test for existence of self._probabilities
+        if self._probabilities is None:
+            raise RuntimeError(f'{self._model.__name__.title()} has not analyzed an image.  Run analyze_image(WebImage)')
+
         # Get top k results
-        values, indices = torch.topk(self._probabilities, self.top_results, dim=1)
+        values, indices = torch.topk(self._probabilities, self.num_results, dim=1)
 
         # Extract probability/confidence percentages
         percentages = [score.item() for score in values[0]]
