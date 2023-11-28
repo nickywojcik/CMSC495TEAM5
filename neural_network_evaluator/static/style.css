@@ -1,0 +1,18 @@
+table {
+    float:left;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.center {
+    display:flex;
+    justify-content: center;
+}
+
+th.model_header {
+    font-size: 26px;
+}
+
+th.category_header {
+    text-align: left;
+}

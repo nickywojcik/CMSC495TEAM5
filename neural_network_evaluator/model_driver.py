@@ -1,7 +1,8 @@
 """  
 CMSC Team 5
-Perform testing of ResNet-152 processing
+No longer is used or works!!!
 Paul Wojcik, Jack Boswell, Andrew Rios, Nelson Romero, Nikhil Thomas
+Written by Jack Boswell and Paul Wojcik
 """
 
 from flask import Blueprint, g, redirect, render_template, request, session, url_for
@@ -15,7 +16,10 @@ driver_blueprint = Blueprint("models", __name__, url_prefix="/models")
 @driver_blueprint.route('/resnet152', methods=('GET', 'POST'))
 def flask_resnet_152_analysis():
     """Process image using ResNet-152"""
-    web_image = WebImage(session["image_filepath"])
+    try:
+        web_image = WebImage(session["image_filepath"])
+    except FileNotFoundError:
+            return redirect(url_for('index'))
     results = resnet_152_analysis(web_image)
 
     return render_template('results.html', results=results["ResNet-152"])
