@@ -4,19 +4,62 @@
 
 <!--- Content --->
 {% block content %}
-<center>
+<div class="center">
 <table>
     <tr>
-        <th>Category</th>
+        <tr>
+            <th class="model_header" colspan="2">ResNet-152</th>
+        </tr>
+        <th class="category_header">Category</th>
         <th>Confidence</th>
     </tr>
-    {%for result in results['results']%}
+    {%for result in resnet_results['results']%}
     <tr>    
         <td>{{ result[0] }}</td>
         <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
     </tr>
     {% endfor %}
 </table>
+<table>
+    <tr>
+        <th class="model_header" colspan="2">DenseNet-201</th>
+    </tr>
+    <tr>
+        <th class="category_header">Category</th>
+        <th>Confidence</th>
+    </tr>
+    {%for result in densenet_results['results']%}
+    <tr>    
+        <td>{{ result[0] }}</td>
+        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
+    </tr>
+    {% endfor %}
+</table>
+<table>
+    <tr>
+        <th class="model_header" colspan="2">VGG19</th>
+    </tr>
+    <tr>
+        <th class="category_header">Category</th>
+        <th>Confidence</th>
+    </tr>
+    {%for result in vgg_results['results']%}
+    <tr>    
+        <td>{{ result[0] }}</td>
+        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+<center>
+<br /><br />
+Most Likely Category:
+<br />
+{{highest_averaged_results[0]}}
+<br /><br />
+Averaged Confidence From All Models: 
+<br />
+{{ "%.0f" % (highest_averaged_results[1] * 100) }}%
 <br /><br />
 <a href="{{ url_for('clear_image')}}">Home</a>
 </center>

@@ -12,11 +12,16 @@ from pathlib import Path
 from flask import Flask, render_template, request, url_for, redirect, session
 from werkzeug.utils import secure_filename
 
-from . import model_driver
+from neural_network_evaluator.models import ModelFactory
+from neural_network_evaluator.utils import AnalysisResults, WebImage
 
 def get_project_root() -> Path:
-    "Get path of project root folder"
+    """Get path of project root folder"""
     return Path(__file__).parent
+
+def create_upload_dir() -> None:
+    """Create static/uploads if non-existent"""
+    Path("neural_network_evaluator/static/uploads").mkdir(parents=True, exist_ok=True)
 
 def create_app(test_config=None) -> Flask:
     """Create Flask App"""
@@ -50,6 +55,7 @@ def create_app(test_config=None) -> Flask:
                 filename = secure_filename(image.filename)
                 filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
                 session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
+                create_upload_dir()
                 image.save(session["image_filepath"])
             except FileNotFoundError:
                 return redirect(url_for('index'))
@@ -61,8 +67,7 @@ def create_app(test_config=None) -> Flask:
             # Display default image
             filename = "frankie.jpg"
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
-            return render_template("index.html", image_uploaded="true", image=url_for("static", filename="uploads/" + filename))
+            return render_template("index.html", image_uploaded="false", image=url_for("static", filename=filename))
 
     @app.route('/clearImage', methods=('GET', 'POST'))
     def clear_image():
@@ -77,6 +82,38 @@ def create_app(test_config=None) -> Flask:
         return redirect(url_for('index'))
     
     # Register model blueprints for image processing
-    app.register_blueprint(model_driver.driver_blueprint)
+    # No longer necessary; leaving in temporarily due to Design Plan
+    # TODO: Need wayahead on Flask endpoints
+    #app.register_blueprint(model_driver.driver_blueprint)
+
+    @app.route('/results', methods=('GET', 'POST'))
+    def return_results():
+        """Get PyTorch CNN Image classification results"""
+        try:
+            web_image = WebImage(session["image_filepath"])
+        except FileNotFoundError:
+            return redirect(url_for('index'))
+        
+        # Create Models
+        factory = ModelFactory()
+        resnet152_model = factory.create_model("resnet152")
+        densenet201_model = factory.create_model("densenet201")
+        vgg19_model = factory.create_model("vgg19")
+
+        # Analyze Image
+        resnet152_model.analyze_image(web_image)
+        densenet201_model.analyze_image(web_image)
+        vgg19_model.analyze_image(web_image)
+
+        # Compile Results
+        results = AnalysisResults()
+        results.add_result(resnet152_model.get_top_results())
+        results.add_result(densenet201_model.get_top_results())
+        results.add_result(vgg19_model.get_top_results())
+
+        return render_template('results.html', resnet_results=results.get_results()["resnet152"], 
+                               densenet_results=results.get_results()["densenet201"],
+                               vgg_results=results.get_results()["vgg19"],
+                               highest_averaged_results=results.get_highest_averaged_result())
         
     return app
