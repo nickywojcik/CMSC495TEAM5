@@ -1,66 +1,69 @@
-<!--- Written by Jack Boswell --->
+<!--- Written by Jack Boswell and Nelson Romero --->
 <!--- Extends the base html file --->
 {% extends "base.html" %}
 
 <!--- Content --->
 {% block content %}
-<div class="center">
-<table>
-    <tr>
-        <tr>
-            <th class="model_header" colspan="2">ResNet-152</th>
-        </tr>
-        <th class="category_header">Category</th>
-        <th>Confidence</th>
-    </tr>
-    {%for result in resnet_results['results']%}
-    <tr>    
-        <td>{{ result[0] }}</td>
-        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
-    </tr>
-    {% endfor %}
-</table>
-<table>
-    <tr>
-        <th class="model_header" colspan="2">DenseNet-201</th>
-    </tr>
-    <tr>
-        <th class="category_header">Category</th>
-        <th>Confidence</th>
-    </tr>
-    {%for result in densenet_results['results']%}
-    <tr>    
-        <td>{{ result[0] }}</td>
-        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
-    </tr>
-    {% endfor %}
-</table>
-<table>
-    <tr>
-        <th class="model_header" colspan="2">VGG19</th>
-    </tr>
-    <tr>
-        <th class="category_header">Category</th>
-        <th>Confidence</th>
-    </tr>
-    {%for result in vgg_results['results']%}
-    <tr>    
-        <td>{{ result[0] }}</td>
-        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
-    </tr>
-    {% endfor %}
-</table>
-</div>
-<center>
-<br /><br />
-Most Likely Category:
-<br />
-{{highest_averaged_results[0]}}
-<br /><br />
-Averaged Confidence From All Models: 
-<br />
-{{ "%.0f" % (highest_averaged_results[1] * 100) }}%
-<br /><br />
-<a href="{{ url_for('clear_image')}}">Home</a>
-</center>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" style="background: var(--bs-body-bg);border-style: solid;border-color: var(--bs-body-color);">
+                <h1 style="text-align: center;border-bottom-width: 1px;border-bottom-style: solid;">ResNet-152</h1>
+                <table>
+                    <tr>
+                        <th class="category_header">Category</th>
+                        <th>Confidence</th>
+                    </tr>
+                    {% for result in resnet_results['results'] %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-md-4" style="border-style: solid;border-color: var(--bs-body-color);">
+                <h1 style="text-align: center;border-bottom: 1px solid var(--bs-body-color);">DenseNet-201</h1>
+                <table>
+                    <tr>
+                        <th class="category_header">Category</th>
+                        <th>Confidence</th>
+                    </tr>
+                    {% for result in densenet_results['results'] %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-md-4" style="border-style: solid;border-color: var(--bs-body-color);">
+                <h1 style="text-align: center;border-bottom-width: 1px;border-bottom-style: solid;">VGG19</h1>
+                <table>
+                    <tr>
+                        <th class="category_header">Category</th>
+                        <th>Confidence</th>
+                    </tr>
+                    {% for result in vgg_results['results'] %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td align="right">{{ "%.2f" % (result[1] * 100) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" style="border-style: solid; border-color: var(--bs-body-color);">
+                <h1 style="font-size: 20px;">Most Likely Category: {{ highest_averaged_results[0] }}</h1>
+            </div>
+            <div class="col-md-6" style="border-style: solid; border-color: var(--bs-body-color);">
+                <h1 style="font-size: 20px;">Average Confidence From All Models:  {{ "%.0f" % (highest_averaged_results[1] * 100) }}%</h1>
+            </div>
+        </div>
+    </div>
+</main>
+<center><a href="{{ url_for('clear_image') }}">Home</a></center>
 {% endblock %}
