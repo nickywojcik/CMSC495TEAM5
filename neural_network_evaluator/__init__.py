@@ -51,8 +51,11 @@ def create_app(test_config=None) -> Flask:
             # Get rid of existing image and Save uploaded image
             clear_image()
             try:
+
+                # TODO: Clean up below mess
                 image = request.files["file"]
                 filename = secure_filename(image.filename)
+                session["image_filename"] = filename
                 filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
                 session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
                 create_upload_dir()
@@ -114,6 +117,7 @@ def create_app(test_config=None) -> Flask:
         return render_template('results.html', resnet_results=results.get_results()["resnet152"], 
                                densenet_results=results.get_results()["densenet201"],
                                vgg_results=results.get_results()["vgg19"],
-                               highest_averaged_results=results.get_highest_averaged_result())
+                               highest_averaged_results=results.get_highest_averaged_result(),
+                               image=url_for('static', filename='uploads/' + session["image_filename"]))
         
     return app

@@ -1,49 +1,40 @@
-<!--- Written by Paul Wojcik and Jack Boswell--->
-<!--- Extends the base html file --->
+<!-- Written by Paul Wojcik, Jack Boswell, and Nelson Romero -->
+<!-- Extends the base html file -->
 {% extends "base.html" %}
 
 <!--- Content --->
 {% block content %}
-<style>
-    #imagediv {display: flex; justify-content: center; padding: 30px;}
-    #image {max-height:500px; width:auto; }
-    #buttons {display: flex; justify-content: center; padding-left: 20px;}
-    #button {margin: 0 20px;}
-</style>
-
-    <div id="imagediv">
-        <img id = "image" src="{{image}}">
+<form class="d-flex form-inline" action="/" method="post" enctype="multipart/form-data">
+    <div class="row d-xxl-flex flex-fill justify-content-center" style="border-style: none;">
+        <div class="col-xxl-12 d-inline-flex justify-content-center" style="height: 31px;width: 467.094px;border-style: none;">
+            <input class="form-control form-control-sm" type="file" id="file" accept="image/*" style="border-style: solid;border-color: var(--bs-btn-disabled-color); min-width: 250px;" name="file">
+            <input class="btn btn-sm btn-primary" type="submit" value="Upload" style="border-style: solid;border-color: var(--bs-btn-color);background: var(--bs-secondary-bg);" disabled>
+            <input class="btn btn-sm btn-primary" type="submit" id="process-button" value="Process" style="border-style: solid;border-color: var(--bs-btn-disabled-color);background: var(--bs-secondary-bg);" formaction="{{ url_for('return_results') }}">
+            <button class="btn btn-primary btn-sm" id="clearButton" type="button" style="background: var(--bs-secondary-bg);border-color: var(--bs-body-color);min-width: 92px;" onclick=location.href="{{ url_for('clear_image') }}">Clear Image</button>
+        </div>
     </div>
-    <div id="buttons">
-        <form action="/" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="image/*"/>
-            <input type="submit" value="Upload" disabled />
-            <input type="submit" id="process-button" value="Process" formaction="{{ url_for('return_results') }}"/>
-            <input type="button" value="Clear Image" onclick=location.href="{{ url_for('clear_image') }}" />
-        </form>
-    </div>
-    <script>
-        function stringToBool(str) {
-            return str.toLowerCase() === "true";
-        }
+</form>
+<script>
+    function stringToBool(str) {
+        return str.toLowerCase() === "true";
+    }
 
-        function validateProcessButton() {
-            var processButton = document.getElementById("process-button");
-            var imageUploaded = stringToBool("{{ image_uploaded }}");
-            processButton.disabled = !imageUploaded;
-        }
+    function validateProcessButton() {
+        var processButton = document.getElementById("process-button");
+        var imageUploaded = stringToBool("{{ image_uploaded }}");
+        processButton.disabled = !imageUploaded;
+    }
 
-        function handleFileInputChange(event) {
-            const value = event.target.value;
-            const submitButton = document.querySelector("input[value=Upload]");
-            submitButton.disabled = !value;
-        }
+    function handleFileInputChange(event) {
+        const value = event.target.value;
+        const submitButton = document.querySelector("input[value=Upload]");
+        submitButton.disabled = !value;
+    }
 
-        const fileInput = document.querySelector("input[type=file]");
-        fileInput.addEventListener("change", handleFileInputChange)
-        
-        validateProcessButton();
-    </script>
-
+    const fileInput = document.querySelector("input[type=file]");
+    fileInput.addEventListener("change", handleFileInputChange)
+    
+    validateProcessButton();
+</script>
 {% endblock %}
 
