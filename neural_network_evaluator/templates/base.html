@@ -20,7 +20,8 @@
 <!--- Body --->
 <body>
     <header style="height: 23px;color: var(--bs-body-color);">
-        <h1 class="text-end" id="currentDateTime" style="font-size: 12px;width: 1920px;text-align: right;">Date - Time</h1>
+        <h1 class="text-end" id="currentDateTime" style="padding-right: 10px;font-size: 12px;width: 1920px;text-align: right;">Date - Time</h1>
+        <h1 class="text-end" id="sessionTime" style="padding-right: 10px;font-size: 12px;width: 1920px;text-align: right;">Session Time: 30</h1>
     </header>
     <main>
         <h1 style="text-align: center;color: var(--bs-body-color);font-family: 'Abril Fatface', serif;margin: 0;font-size: 40px;">CMSC 495</h1>
@@ -34,5 +35,27 @@
     <script src="{{ url_for('static', filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/datetime.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/image.js') }}"></script>
+    <script>
+
+        //Creates a timeout timer on page load, and it refreshes with each page load (including button presses)
+        window.addEventListener('load', function () {
+            var timeout = 1740;
+            var timer = setInterval(function(){
+                document.getElementById("sessionTime").innerHTML = "Session Time: " + Math.round(timeout/60);
+                timeout-=60;
+
+                //If the timeout reaches 0, send a request to server to cleanup
+                if (timeout < 0) {
+                    var cleanupRequest = new XMLHttpRequest();
+                    cleanupRequest.open('POST', "{{ url_for('cleanup') }}");
+                    cleanupRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    cleanupRequest.send();
+                    clearInterval(timer);
+                    document.getElementById("sessionTime").innerHTML = "Session ended, reupload files to continue";
+                }
+
+            }, 60000);
+        });
+    </script>
 </body>
 </html>

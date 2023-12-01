@@ -7,6 +7,7 @@ Written by Jack Boswell and Paul Wojcik
 
 from datetime import datetime
 import os
+import uuid
 from pathlib import Path
 
 from flask import Flask, render_template, request, url_for, redirect, session
@@ -22,6 +23,7 @@ def get_project_root() -> Path:
 def create_upload_dir() -> None:
     """Create static/uploads if non-existent"""
     Path("neural_network_evaluator/static/uploads").mkdir(parents=True, exist_ok=True)
+    Path("neural_network_evaluator/static/uploads/" + session["user"]).mkdir(parents=True, exist_ok=True)
 
 def create_app(test_config=None) -> Flask:
     """Create Flask App"""
@@ -53,18 +55,21 @@ def create_app(test_config=None) -> Flask:
             try:
 
                 # TODO: Clean up below mess
+
+                session["user"] = str(uuid.uuid4()) #Generate unique identifier for upload folder
                 image = request.files["file"]
                 filename = secure_filename(image.filename)
                 session["image_filename"] = filename
-                filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-                session["image_filepath"] = os.path.join(app.config["UPLOAD_FOLDER"], filename) # Save image filepath for image processing in a later context
+                session['filepath'] = os.path.join(app.config["UPLOAD_FOLDER"], session["user"])
+                filepath = os.path.join(session['filepath'], filename)
+                session["image_filepath"] = filepath # Save image filepath for image processing in a later context
                 create_upload_dir()
                 image.save(session["image_filepath"])
             except FileNotFoundError:
                 return redirect(url_for('index'))
             # Display uploaded image
             return render_template("index.html", image_uploaded="true",
-                                   image=url_for("static", filename="uploads/" + filename))
+                                   image=url_for("static", filename="uploads/"+ session["user"] + "/" + filename))
         else:
 
             # Display default image
@@ -82,6 +87,13 @@ def create_app(test_config=None) -> Flask:
         except (KeyError, FileNotFoundError) as e:
             pass
           
+        return redirect(url_for('index'))
+    
+    @app.route('/cleanup', methods=('GET', 'POST'))
+    def cleanup():
+        """Cleanup user data after session expire"""
+        os.remove(session["image_filepath"])
+        os.rmdir(session["filepath"])
         return redirect(url_for('index'))
     
     # Register model blueprints for image processing
@@ -118,6 +130,6 @@ def create_app(test_config=None) -> Flask:
                                densenet_results=results.get_results()["densenet201"],
                                vgg_results=results.get_results()["vgg19"],
                                highest_averaged_results=results.get_highest_averaged_result(),
-                               image=url_for('static', filename='uploads/' + session["image_filename"]))
-        
+                               image=url_for('static', filename='uploads/' + session["user"] + "/" + session["image_filename"]))
+    
     return app
