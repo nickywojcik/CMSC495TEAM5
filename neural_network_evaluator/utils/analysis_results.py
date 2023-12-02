@@ -83,7 +83,8 @@ class AnalysisResults:
         # Calculate the average probability for each category
         # Applied rounding to deal with floating point arithmetic limitations
         self.averaged_results = {
-           category: round(sum(probabilities) / len(probabilities), 2)
+           #category: round(sum(probabilities) / len(probabilities), 2)
+           category: round(sum(probabilities) / len(self._results), 4)
             for category, probabilities in category_probabilities.items()
         }
 
