@@ -4,7 +4,7 @@
 
 <!--- Content --->
 {% block content %}
-<form class="d-flex form-inline" action="/" method="post" enctype="multipart/form-data">
+<form class="d-flex form-inline" id="resultsForm" action="/" method="post" enctype="multipart/form-data">
     <div class="row d-xxl-flex flex-fill justify-content-center" style="border-style: none;">
         <div class="col-xxl-12 d-inline-flex justify-content-center" style="height: 31px;width: 467.094px;border-style: none;">
             <input class="form-control form-control-sm" type="file" id="file" accept="image/*" style="border-style: solid;border-color: var(--bs-btn-disabled-color); min-width: 250px;" name="file">
@@ -15,6 +15,13 @@
     </div>
 </form>
 <script>
+    document.getElementById('resultsForm').addEventListener('submit', function(event) {
+            cleanupFlag = false; // Set flag to prevent cleanup
+        });
+    document.getElementById('clearButton').addEventListener('submit', function(event) {
+        cleanupFlag = false; // Set flag to prevent cleanup
+    });
+
     function stringToBool(str) {
         return str.toLowerCase() === "true";
     }

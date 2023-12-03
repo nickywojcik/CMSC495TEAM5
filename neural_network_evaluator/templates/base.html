@@ -20,7 +20,8 @@
 <!--- Body --->
 <body>
     <header style="height: 23px;color: var(--bs-body-color);">
-        <h1 class="text-end" id="currentDateTime" style="font-size: 12px;width: 1920px;text-align: right;">Date - Time</h1>
+        <h1 class="text-end" id="currentDateTime" style="padding-right: 10px;font-size: 12px;width: 1920px;text-align: right;">Date - Time</h1>
+        <h1 class="text-end" id="sessionTime" style="padding-right: 10px;font-size: 12px;width: 1920px;text-align: right;">Session Time: Loading...</h1>
     </header>
     <main>
         <h1 style="text-align: center;color: var(--bs-body-color);font-family: 'Abril Fatface', serif;margin: 0;font-size: 40px;">CMSC 495</h1>
@@ -34,5 +35,15 @@
     <script src="{{ url_for('static', filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/datetime.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/image.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/cleanup.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/timer.js') }}"></script>
+    <script>
+        window.addEventListener('popstate', function(event) {
+            // If navigating back to the index page, set cleanupFlag to true
+            if (document.location.pathname === '/') {
+                cleanupFlag = true;
+            }
+        });
+    </script>
 </body>
 </html>

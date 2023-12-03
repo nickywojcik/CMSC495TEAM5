@@ -64,4 +64,9 @@
     </div>
 </main>
 <center><a href="{{ url_for('clear_image') }}">Home</a></center>
+<script>
+    document.getElementById('indexLink').addEventListener('click', function(event) {
+            cleanupFlag = false; // Set flag to prevent cleanup
+        });
+</script>
 {% endblock %}
