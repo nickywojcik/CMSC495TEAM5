@@ -84,7 +84,7 @@ def create_app(test_config=None) -> Flask:
             
             # Display uploaded image
             return render_template("index.html", image_uploaded="true",
-                                   image=url_for("static", filename=session['url_image_filepath']))
+                                   image=url_for("static", filename="uploads/" + session["user"] + "/" + session["image_filename"]))
         else:
 
             # Display default image
