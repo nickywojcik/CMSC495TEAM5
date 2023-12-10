@@ -65,7 +65,7 @@
 </main>
 <br /> <br />
 <div style="display: flex; justify-content: center;">
-    <button id="indexLink" class="btn btn-primary btn-sm" type="button" style="background: var(--bs-secondary-bg); border-style: solid; border-color: var(--bs-body-color);" onclick="location.href='{{ url_for('clear_image') }}'">Home</button>
+    <button id="indexLink" class="btn btn-primary btn-sm" type="button" style="background: var(--bs-secondary-bg); border-style: solid; border-color: var(--bs-body-color);" onclick=location.href="{{ url_for('clear_image') }}">Home</button>
 </div>
 <script>
     document.getElementById('indexLink').addEventListener('click', function(event) {
