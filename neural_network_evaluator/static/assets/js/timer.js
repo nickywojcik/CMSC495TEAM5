@@ -8,7 +8,7 @@ window.addEventListener('load', function () {
         //If the timeout reaches 0, send a request to server to cleanup
         if (timeout < 0) {
             var cleanupRequest = new XMLHttpRequest();
-            cleanupRequest.open('POST', "{{ url_for('cleanup') }}");
+            cleanupRequest.open('POST', "/cleanup");
             cleanupRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             cleanupRequest.send();
             clearInterval(timer);
