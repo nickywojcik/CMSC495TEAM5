@@ -1,7 +1,11 @@
-# CMSC495TEAM5
-A neural network evaluation application
+# Neural Network Evaluator
+A neural network evaluation application designed by CMSC 495 Team 5
 
 ## Overview
+This flask application allows for the uploading of an image to three different convolutional neural networks and the display of their results.
+
+Check it out at: http://neuralnetworkevaluator.eastus.cloudapp.azure.com/
+
 
 ## Installation
 
