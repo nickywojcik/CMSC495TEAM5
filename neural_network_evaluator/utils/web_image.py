@@ -44,7 +44,7 @@ class WebImage:
         Raises:
             IOError: If filepath is invalid/unreadable
         """
-        return Image.open(self.image_file_path)
+        return Image.open(self.image_file_path).convert('RGB')
     
     def _transforms(self) -> v2.Compose:
         """Returns function that transforms PIL images to tensor
