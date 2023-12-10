@@ -39,16 +39,6 @@ def create_app(test_config=None) -> Flask:
     # Set default image upload folder
     app.config["UPLOAD_FOLDER"] = os.path.join(get_project_root(), 'static/uploads')
 
-    @app.context_processor
-    def get_date() -> str:
-        """Returns date formatted as DayOfWeek, Mon Day, Year"""
-        return { 'date' : datetime.now().strftime("%A, %b %d, %Y") }
-
-    @app.context_processor
-    def get_time() -> str:
-        """Get time formatted as HH:MM:SS AM/PM"""
-        return { "time" : datetime.now().strftime("%I:%M:%S %p") }
-
     @app.route('/', methods=('GET', 'POST'))
     def index():
         """create index page"""
@@ -134,6 +124,9 @@ def create_app(test_config=None) -> Flask:
         results.add_result(resnet152_model.get_top_results())
         results.add_result(densenet201_model.get_top_results())
         results.add_result(vgg19_model.get_top_results())
+
+        # Delete objects to save memory
+        del web_image, factory, resnet152_model, densenet201_model, vgg19_model
 
         return render_template('results.html', resnet_results=results.get_results()["resnet152"], 
                                densenet_results=results.get_results()["densenet201"],
