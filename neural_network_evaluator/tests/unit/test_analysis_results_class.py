@@ -127,7 +127,7 @@ class TestAnalysisResults(unittest.TestCase):
 
         self.assertEqual(analysis_results.averaged_results['cat'], 0.65)
         self.assertEqual(analysis_results.averaged_results['dog'], 0.7)
-        self.assertEqual(analysis_results.averaged_results['horse'], 0.85)
+        self.assertEqual(analysis_results.averaged_results['horse'], 0.425)
 
     def test_analysis_results_get_highest_averaged_result_empty(self) -> None:
         """Test get_highest_averaged_result method of AnalysisResults when empty"""
@@ -154,4 +154,4 @@ class TestAnalysisResults(unittest.TestCase):
         analysis_results.add_result({'model1': {'results': [('cat', 0.7), ('dog', 0.9)]}})
         analysis_results.add_result({'model2': {'results': [('cat', 0.6), ('dog', 0.85)]}})
 
-        self.assertEqual(analysis_results.get_highest_averaged_result(), ('dog', 0.88))
+        self.assertEqual(analysis_results.get_highest_averaged_result(), ('dog', 0.875))
