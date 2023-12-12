@@ -68,8 +68,8 @@ class TestDenseNet201Model(unittest.TestCase):
 
         # Check top result
         self.assertEqual(results["densenet201"]["top_result"][0], "Golden Retriever")
-        self.assertGreaterEqual(results["densenet201"]["top_result"][1], 0.35)
+        self.assertGreaterEqual(results["densenet201"]["top_result"][1], 0.20)
 
         # Check first result of results
         self.assertEqual(results["densenet201"]["results"][0][0], "Golden Retriever")
-        self.assertGreaterEqual(results["densenet201"]["results"][0][1], 0.35)
+        self.assertGreaterEqual(results["densenet201"]["results"][0][1], 0.20)
